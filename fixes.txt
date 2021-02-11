@@ -1,0 +1,11 @@
+Tutorials Page UI fixes
+State select page design change
+Mutiple Photos select functionality for tickets
+ticket point select design changes
+Lawyer Listing Loading icon text change
+Laywer profile FAQ section added
+Checkout Page Text Changes
+Credit card fixes
+Ticket detail page Design change
+Contact page links added
+Deployment

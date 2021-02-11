@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "485765165563",
+    "project_id": "ticket-defence",
+    "storage_bucket": "ticket-defence.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:485765165563:android:69a591982d5884d82b5b5e",
+        "android_client_info": {
+          "package_name": "com.savvy.ticketdefense"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "485765165563-adj7k9r6leutai635v8ge4esav2e26pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAKIQVxbNhqktNWCccEMlDcv5sr75fuHJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "485765165563-adj7k9r6leutai635v8ge4esav2e26pv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
