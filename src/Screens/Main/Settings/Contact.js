@@ -14,12 +14,75 @@ import {
   TextInput,
   Linking,
 } from "react-native";
+import * as f from "firebase";
 import { LightGray, Pink } from "../../../config/Theme";
 import Header from "../../../components/Header";
 import call from "react-native-phone-call";
 import * as MailComposer from "expo-mail-composer";
+import { ToastError, ToastSuccess, mapStateToProps } from "../../../config/config";
+import moment from "moment";
+import NetInfo from "@react-native-community/netinfo";
+import { connect } from "react-redux";
 
-export default class Contact extends Component {
+class Contact extends Component {
+  state = {
+   message:'',
+   currentUser: ""
+  };
+  constructor(props) {
+    super(props);
+    // this.setState({
+    //   currentUser: this.props.auth?.user,
+    // });
+    this.setState({
+      currentUser: this.props.auth?.user
+    });
+    this._sendMessage = this._sendMessage.bind(this);
+    // Keyboard.addListener('keyboardDidShow', () => {
+    //   this.setState({ keyboardOpen: true });
+    // });
+    // Keyboard.addListener('keyboardDidHide', () => {
+    //   this.setState({ keyboardOpen: false });
+    // });
+  }
+  componentDidMount() {
+    
+    // alert(JSON.stringify(this.props.auth?.user))
+
+    this.setState({
+        currentUser: this.props.auth?.user,
+    });
+  }
+  _sendMessage = () =>{
+    if(this.state.message == "")
+    {
+      ToastError("Error!", "Please write your message.");
+      return;
+    }
+    const currentUser = this.state.currentUser;
+    NetInfo.fetch().then((state) => {
+      if (state.isConnected) {
+        f.default
+          .database()
+          .ref("contacts")
+          // .child(this.state.data.id)
+          .push({
+            user: { name: currentUser.Name, email:currentUser.Email, phone:currentUser.Phone},
+            message: this.state.message,
+            date: moment().format()
+           })
+          .then(() => {
+            this.setState({ message: "" });
+            ToastSuccess("Success", "Your message has been sent to our team!");
+          })
+          .catch(() => {
+            ToastError("Error", "Unable to send the message...!");
+          });
+      } else {
+        ToastError("Network Error!", "Kindly check your internet connection");
+      }
+    });
+  }
   render() {
     return (
       <SafeAreaView
@@ -66,6 +129,8 @@ export default class Contact extends Component {
               paddingTop:8,
               marginTop: 10,
             }}
+            value={this.state.message}
+            onChangeText={(text)=>{this.setState({message:text})}}
             placeholder={`Enter your message here`}
             rowSpan={5}
           />
@@ -79,6 +144,7 @@ export default class Contact extends Component {
               backgroundColor: Pink,
               marginTop: 20,
             }}
+            onPress={()=>{this._sendMessage()}}
           >
             <Text style={{ color: "white", fontWeight: "bold" }}>
               Send Message
@@ -175,3 +241,5 @@ export default class Contact extends Component {
     );
   }
 }
+export default connect(mapStateToProps)(Contact);
+
